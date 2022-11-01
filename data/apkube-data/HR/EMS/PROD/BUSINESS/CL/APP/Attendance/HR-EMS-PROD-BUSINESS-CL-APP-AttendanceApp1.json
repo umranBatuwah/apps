@@ -6,8 +6,8 @@
 	"serviceType":"app",
 	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "Attendance",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "Attendance",
     "serviceName":"Attendance-App1",
     "description": "Java Spring Boot App in k8",
     "clusterServiceLoaction":{

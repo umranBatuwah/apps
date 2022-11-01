@@ -6,8 +6,8 @@
 	"serviceType":"data",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "LMS",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "LMS",
     "serviceName":"LMS-Data1",
     "description": "Postgresql Database",		
     "cloudManagedServiceLoaction":{

@@ -6,8 +6,8 @@
 	"serviceType":"app",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "Canteen",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "Canteen",
     "serviceName":"Canteen-App1",
     "description": " API's written in lambda",		
     "cloudManagedServiceLoaction":{

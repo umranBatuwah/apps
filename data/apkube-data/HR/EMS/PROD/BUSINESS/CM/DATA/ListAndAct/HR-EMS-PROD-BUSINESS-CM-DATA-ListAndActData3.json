@@ -6,8 +6,8 @@
 	"serviceType":"data",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "List-Act",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "List-Act",
     "serviceName":"List-And-Act-Data3",
     "description": "Redis",		
     "cloudManagedServiceLoaction":{

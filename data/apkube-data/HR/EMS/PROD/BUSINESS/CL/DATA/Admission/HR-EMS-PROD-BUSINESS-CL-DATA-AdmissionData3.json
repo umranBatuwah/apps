@@ -6,8 +6,8 @@
 	"serviceType":"data",
 	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "Admission",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "Admission",
     "serviceName":"Admission-Data3",
     "description": "Redis",
     "clusterServiceLoaction":{

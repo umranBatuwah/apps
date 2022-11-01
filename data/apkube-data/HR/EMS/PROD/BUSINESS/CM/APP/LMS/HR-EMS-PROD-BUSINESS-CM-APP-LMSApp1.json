@@ -6,8 +6,8 @@
 	"serviceType":"app",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "LMS",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "LMS",
     "serviceName":"LMS-App1",
     "description": " API's written in lambda",		
     "cloudManagedServiceLoaction":{

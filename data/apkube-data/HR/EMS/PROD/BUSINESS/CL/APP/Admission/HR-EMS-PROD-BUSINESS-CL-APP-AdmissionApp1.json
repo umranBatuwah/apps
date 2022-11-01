@@ -6,8 +6,8 @@
 	"serviceType":"app",
 	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "Admission",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "Admission",
     "serviceName":"Admission-App1",
     "description": "Java Spring Boot App in k8",
     "clusterServiceLoaction":{

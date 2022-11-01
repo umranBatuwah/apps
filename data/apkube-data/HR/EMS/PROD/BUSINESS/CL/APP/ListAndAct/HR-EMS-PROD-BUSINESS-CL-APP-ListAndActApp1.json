@@ -6,8 +6,8 @@
 	"serviceType":"app",
 	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "List-Act",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "List-Act",
     "serviceName":"List-And-Act-App1",
     "description": "Java Spring Boot App in k8",
     "clusterServiceLoaction":{

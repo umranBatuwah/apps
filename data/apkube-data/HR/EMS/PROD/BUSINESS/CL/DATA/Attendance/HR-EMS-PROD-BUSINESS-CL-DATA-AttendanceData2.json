@@ -6,8 +6,8 @@
 	"serviceType":"data",
 	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "Attendance",
-	"associatedBusinessService": "NA",
+	"associatedCommonService": "NA",
+	"associatedBusinessService": "Attendance",
     "serviceName":"Attendance-Data2",
     "description": "ES",
     "clusterServiceLoaction":{
