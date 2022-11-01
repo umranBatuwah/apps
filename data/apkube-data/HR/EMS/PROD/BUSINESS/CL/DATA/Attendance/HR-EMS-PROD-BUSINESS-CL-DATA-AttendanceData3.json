@@ -4,17 +4,18 @@
 	"associatedProduct":"EMS",
 	"associatedEnv":"PROD",
 	"serviceType":"data",
-	"serviceHostingType":"CloudManaged",
+	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "SecurityRbac",
+	"associatedCommonService": "Attendance",
 	"associatedBusinessService": "NA",
     "serviceName":"Attendance-Data3",
-    "description": "Redis",		
-    "cloudManagedServiceLoaction":{
+    "description": "Redis",
+    "clusterServiceLoaction":{
         "landingZone":"67894532",
         "productEnclave":"VPC1",
-        "cloudElementType":"RDS-Redis",
-        "cloudElementId":{"1234":"321"},
+        "clusterId":"CLUSTER2",
+        "clusterName":"PROD_CLUSTER",     
+        "clusterNamespace":"EMS",
         "managementUrl":"Url-1"
-    }
+}
 }

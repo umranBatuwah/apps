@@ -6,7 +6,7 @@
 	"serviceType":"app",
 	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "SecurityRbac",
+	"associatedCommonService": "List-Act",
 	"associatedBusinessService": "NA",
     "serviceName":"List-And-Act-App1",
     "description": "Java Spring Boot App in k8",

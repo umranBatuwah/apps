@@ -6,7 +6,7 @@
 	"serviceType":"app",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "SecurityRbac",
+	"associatedCommonService": "LMS",
 	"associatedBusinessService": "NA",
     "serviceName":"LMS-App1",
     "description": " API's written in lambda",		

@@ -6,7 +6,7 @@
 	"serviceType":"data",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "SecurityRbac",
+	"associatedCommonService": "Canteen",
 	"associatedBusinessService": "NA",
     "serviceName":"Canteen-Data2",
     "description": "ES",		

@@ -6,7 +6,7 @@
 	"serviceType":"app",
 	"serviceHostingType":"ClusterManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "SecurityRbac",
+	"associatedCommonService": "Admission",
 	"associatedBusinessService": "NA",
     "serviceName":"Admission-App1",
     "description": "Java Spring Boot App in k8",

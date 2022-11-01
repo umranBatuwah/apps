@@ -6,7 +6,7 @@
 	"serviceType":"data",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "SecurityRbac",
+	"associatedCommonService": "List-Act",
 	"associatedBusinessService": "NA",
     "serviceName":"List-And-Act-Data2",
     "description": "ES",		

@@ -6,7 +6,7 @@
 	"serviceType":"data",
 	"serviceHostingType":"CloudManaged",
 	"serviceNature": "Business",
-	"associatedCommonService": "SecurityRbac",
+	"associatedCommonService": "LMS",
 	"associatedBusinessService": "NA",
     "serviceName":"LMS-Data3",
     "description": "Redis",		
