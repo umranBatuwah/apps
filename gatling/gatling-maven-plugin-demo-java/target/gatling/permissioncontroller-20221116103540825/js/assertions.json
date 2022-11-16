@@ -1,0 +1,10 @@
+{
+  "simulation": "PermissionControllerTest.PermissionController",
+  "simulationId": "permissioncontroller-20221116103540825",
+  "start": 1668594942907,
+  "description": "test",
+  "scenarios": ["Permission Testting"],
+  "assertions": [
+
+  ]
+}

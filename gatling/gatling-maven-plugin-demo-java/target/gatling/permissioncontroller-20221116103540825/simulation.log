@@ -1,0 +1,8 @@
+RUN	PermissionControllerTest.PermissionController	permissioncontroller	1668594940825	test	3.8.4
+USER	Permission Testting	START	1668594942907
+REQUEST		Create PermissionController	1668594942948	1668594942953	KO	j.n.ConnectException: finishConnect(..) failed: Connection refused
+REQUEST		Create PermissionController	1668594943973	1668594943975	KO	j.n.ConnectException: finishConnect(..) failed: Connection refused
+REQUEST		Create PermissionController	1668594944977	1668594944978	KO	j.n.ConnectException: finishConnect(..) failed: Connection refused
+REQUEST		Create PermissionController	1668594945979	1668594945981	KO	j.n.ConnectException: finishConnect(..) failed: Connection refused
+REQUEST		Create PermissionController	1668594946984	1668594946985	KO	j.n.ConnectException: finishConnect(..) failed: Connection refused
+USER	Permission Testting	END	1668594947992
