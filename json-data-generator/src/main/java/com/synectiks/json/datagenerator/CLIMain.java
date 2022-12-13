@@ -2,17 +2,15 @@ package com.synectiks.json.datagenerator;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
-import java.io.InputStreamReader;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -40,7 +37,6 @@ import org.graylog2.gelfclient.GelfMessageBuilder;
 import org.graylog2.gelfclient.GelfMessageLevel;
 import org.graylog2.gelfclient.GelfTransports;
 import org.graylog2.gelfclient.transport.GelfTransport;
-import org.reflections.vfs.Vfs.Dir;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -64,10 +60,6 @@ public final class CLIMain {
 
     private static TimeZone DEFAULT_TIMEZONE = TimeZone.getDefault();
 
-    public static String IP = "localhost";
-	public static String PORT = "5057";
-	public static String BASE_URL = "http://"+IP+":"+PORT+"/api";
-
     public static String DEV = "/HR/EMS/DEV";
     public static String PROD = "/HR/EMS/PROD";
     public static String STAGE = "/HR/EMS/STAGE";
@@ -90,21 +82,35 @@ public final class CLIMain {
         o.setRequired(false);
         options.addOption(o);
 
+        Option Dev = new Option("Dev", false,
+        "Environment.");
+        Dev.setRequired(false);
+        options.addOption(Dev);
 
-        Option Dir = new Option("Dir", "Dir", true,
-            "the source Directory.");
-        o.setRequired(false);
-        options.addOption(Dir);
-
-
-        Option Env = new Option("Env", "Env", true,
-            "Environment.");
-        o.setRequired(false);
+        Option Env = new Option("Env", false,
+        "Environment.");
+        Env.setRequired(false);
         options.addOption(Env);
 
-        Option l  = new Option("l","location",true,"the directory location");
-        l.setRequired(false);
-        options.addOption(l);
+        Option Prod = new Option("Prod",  false,
+        "Environment.");
+        Prod.setRequired(false);
+        options.addOption(Prod);
+
+        Option Stage = new Option("Stage",  false,
+        "Environment.");
+        Stage.setRequired(false);
+        options.addOption(Stage);
+
+        Option Test = new Option("Test", false,
+        "Environment.");
+        Test.setRequired(false);
+        options.addOption(Test);
+
+        Option Dir = new Option("Dir", "Dir", true,
+        "the source Directory.");
+           o.setRequired(false);
+            options.addOption(Dir);
         
         Option kafkaTopic = new Option("kafkaTopic", "kafkaTopic", true,
                 "kafka topic.");
@@ -116,11 +122,25 @@ public final class CLIMain {
             o.setRequired(false);
             options.addOption(gelf);
         
+
+        Option Data = new Option("Data", false,
+        "Data.");
+            o.setRequired(false);
+            options.addOption(Dir);
+
+
+            
+        
         Option gelfHost = new Option("ghost", "ghost", true,
                 "gelf api server");
             o.setRequired(false);
             options.addOption(gelfHost);
-            
+        
+        // Option Env = new Option("Env", "Env", true,
+        //     "Environment.");
+        //     o.setRequired(false);
+        //     options.addOption(Env);
+
         Option gelfPort = new Option("gport", "gport", true,
                 "gelf api port");
             o.setRequired(false);
@@ -173,6 +193,10 @@ public final class CLIMain {
             try {
             	CommandLine cmd = parser.parse(options, args);
 
+              
+                
+              
+
                 String source = cmd.getOptionValue("s");
 //                if (source == null) {
 //                    throw new ParseException("Missing required option: -s");
@@ -181,10 +205,6 @@ public final class CLIMain {
                 if (!sourceFile.exists()) {
                     throw new FileNotFoundException(source + " cannot be found");
                 }
-                String Env = cmd.getOptionValue("Env");
-
-                String location = cmd.getOptionValue("l");
-        
                 
                 String kafkaTopic = cmd.getOptionValue("kafkaTopic");
                 if(!StringUtils.isBlank(kafkaTopic)) {
@@ -197,57 +217,73 @@ public final class CLIMain {
 	                	tempDestinationFile.delete();
 	                }
                 }
-        
-                String Dir = cmd.getOptionValue("Dir");
-                if(!StringUtils.isBlank(Dir)){
-                    List<File> fil =listFilesUsingFileWalkAndVisitor(source);
-                    for(File file : fil){
-                        fileReader(file);
-                    }
-                }
-           
-                // if(Env == "Dev"){
-                //     String locat = source+DEV;
-                //     if(!StringUtils.isBlank(Dir)){
-                //         List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
-                //         for(File file : fil){
-                //             fileReader(file);
-                //         }
-                //     }
-                //   }else if(Env == "Prod"){
-                //     String locat = source+PROD;
-                //     if(!StringUtils.isBlank(Dir)){
-                //         List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
-                //         for(File file : fil){
-                //             fileReader(file);
-                //         }
-                //     }
-                //   } if(Env == "Stage"){
-                //     String locat = source+STAGE;
-                //     if(!StringUtils.isBlank(Dir)){
-                //         List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
-                //         for(File file : fil){
-                //             fileReader(file);
-                //         }
-                //     }
-                //   } if(Env == "Test"){
-                //     String locat = source+TEST;
-                //     if(!StringUtils.isBlank(Dir)){
-                //         List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
-                //         for(File file : fil){
-                //             fileReader(file);
-                //         }
-                //     }
-                //   }
-
-
-                // if (cmd.hasOption("Dir")) {
-                //    List<File> fil =listFilesUsingFileWalkAndVisitor(source);
-                //          for(File file : fil){
-                //             fileReader(file);
-                //          }
-                //   }
                 
+                // if (cmd.hasOption("Dir")) {
+                //     List<File> fil =listFilesUsingFileWalkAndVisitor(source);
+                //           for(File file : fil){
+                //              fileReader(file);
+                //           }
+                //    }
+                // String Dir = cmd.getOptionValue("Dir");
+                // if(!StringUtils.isBlank(Dir)){
+                //     List<File> fil =listFilesUsingFileWalkAndVisitor(source);
+                //     for(File file : fil){
+                //         fileReader(file);
+                //     }
+                // }
+                // String Dir = cmd.getOptionValue("Dir");
+               // String Dir = cmd.getOptionValue("Dir");
+                if( cmd.hasOption("Dev")){
+                    String locat = source+DEV;
+                    if(!StringUtils.isBlank(sourceFile.toString())){
+                        List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
+                        int i =0 ;
+                        for(File file : fil){
+                            int counter = (i +1);
+                            i++;
+                            System.out.println("Counter : "+counter);
+                            fileReader(file);
+                        }
+                    }
+                   }
+                  else if( cmd.hasOption("Prod")){
+                    String locat = source+PROD;
+                    if(!StringUtils.isBlank(sourceFile.toString())){
+                        List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
+                        int i = 0;
+                        for(File file : fil){
+                            int counter = (i +1);
+                            i++;
+                            System.out.println("Counter : "+counter);
+                            fileReader(file);
+                        }
+                    }
+                  }
+                  else if(cmd.hasOption("Stage")){
+                    String locat = source+STAGE;
+                    if(!StringUtils.isBlank(sourceFile.toString())){
+                        List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
+                        int i = 0;
+                        for(File file : fil){
+                            int counter = (i +1);
+                            i++;
+                            System.out.println("Counter : "+counter);
+                            fileReader(file);
+                        }
+                    }
+                  }else if( cmd.hasOption("Test")){
+                    String locat = source+TEST;
+                    int i =0;
+                    if(!StringUtils.isBlank(sourceFile.toString())){
+                        List<File> fil =listFilesUsingFileWalkAndVisitor(locat);
+                        for(File file : fil){
+                            int counter = (i +1);
+                            i++;
+                            System.out.println("Counter : "+counter);
+                            fileReader(file);
+                        }
+                    }
+                  }
                 
                 String gelf = cmd.getOptionValue("gelf");
                 if(!StringUtils.isBlank(gelf)) {
@@ -332,75 +368,9 @@ public final class CLIMain {
 				e.printStackTrace();
 			}
 
-     }
-     public static void fileReader(File jsonPath){
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(jsonPath));
-		
-			String output;
-			System.out.println("Output from Server .... \n");
-			while ((output = br.readLine()) != null) {
-				System.out.println(output);
-			}
-	  }catch (MalformedURLException e) {
-		  e.printStackTrace();
-	  }catch (IOException e) {
-		  e.printStackTrace();
-	   }
+    }
 
-	}
-
-    // public static void testGetApi(File jsonPath) {
-
-
-
-	// 	String API_END_POINT = BASE_URL + "/create-test-sd-data?jsonFilePath="+jsonPath;
-	// 	HttpURLConnection conn = null;
-	//   	try {
-	// 		  	URL url = new URL(API_END_POINT);
-	// 			conn = (HttpURLConnection) url.openConnection();
-	// 			conn.setRequestMethod("GET");
-	// 			conn.setRequestProperty("Accept", "application/json");
-					
-	// 			if (conn.getResponseCode() != 200) {
-	// 				throw new RuntimeException("Failed : HTTP error code : "
-	// 						+ conn.getResponseCode());
-	// 			}
-	// 			BufferedReader br = new BufferedReader(new FileReader(jsonPath));
-			
-	// 			String output;
-	// 			System.out.println("Output from Server .... \n");
-	// 			while ((output = br.readLine()) != null) {
-	// 				System.out.println(output);
-	// 			}
-	// 	  }catch (MalformedURLException e) {
-	// 		  e.printStackTrace();
-	// 	  }catch (IOException e) {
-	// 		  e.printStackTrace();
-	// 	   }
-    //        finally {
-	// 		 if(conn != null) {
-	// 			conn.disconnect();
-	// 		 }
-	// 	  }
-	
-	// 	}
     
-
-	private static String generateRandomData(File sourceFile, File tempDestinationFile)
-			throws JsonDataGeneratorException, IOException, FileNotFoundException {
-		tempDestinationFile.deleteOnExit();
-		String jsonString = "";
-		JsonDataGenerator jsonDataGenerator = new JsonDataGeneratorImpl();
-		try (InputStream inputStream = new FileInputStream(sourceFile);
-		     OutputStream outputStream = tempDestinationFile != null
-		             ? new FileOutputStream(tempDestinationFile)
-		         : new NonCloseableBufferedOutputStream(System.out)) {
-		    jsonString = jsonDataGenerator.generateTestDataJson(inputStream, outputStream);
-		    System.out.println(jsonString);
-		}
-		return jsonString;
-	}
 
     public static List<File> listFilesUsingFileWalkAndVisitor(String dir) throws IOException {
 		Set<String> fileList = new HashSet<>();
@@ -417,6 +387,36 @@ public final class CLIMain {
 		});
 		
 		return fl;
+	}
+  
+    public static void fileReader(File jsonPath){
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(jsonPath));
+			String output;
+			while ((output = br.readLine()) != null) {
+				System.out.println(output);
+			}
+	  }catch (MalformedURLException e) {
+		  e.printStackTrace();
+	  }catch (IOException e) {
+		  e.printStackTrace();
+	   }
+
+	}
+
+	private static String generateRandomData(File sourceFile, File tempDestinationFile)
+			throws JsonDataGeneratorException, IOException, FileNotFoundException {
+		tempDestinationFile.deleteOnExit();
+		String jsonString = "";
+		JsonDataGenerator jsonDataGenerator = new JsonDataGeneratorImpl();
+		try (InputStream inputStream = new FileInputStream(sourceFile);
+		     OutputStream outputStream = tempDestinationFile != null
+		             ? new FileOutputStream(tempDestinationFile)
+		         : new NonCloseableBufferedOutputStream(System.out)) {
+		    jsonString = jsonDataGenerator.generateTestDataJson(inputStream, outputStream);
+		    System.out.println(jsonString);
+		}
+		return jsonString;
 	}
 
 
